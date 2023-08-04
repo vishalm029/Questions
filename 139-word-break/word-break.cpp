@@ -17,26 +17,26 @@ public:
         return dp[ind] = false;
     }
 
-    bool wordBreak(string s, vector<string>& words) {
-        int n = s.size();
-        vector<int> dp(n, -1);
-        return RecMemo(0, n, words, s, dp);
-    }
-
-    // //Tabulation
     // bool wordBreak(string s, vector<string>& words) {
     //     int n = s.size();
-    //     vector<bool> dp(n + 1, 0);
-    //     dp[n] = true;
+    //     vector<int> dp(n, -1);
+    //     return RecMemo(0, n, words, s, dp);
+    // }
 
-    //     for(int i = n - 1; i >= 0; i--) {
-    //         for(auto word: words) {
-    //             if(i + word.size() <= n and s.substr(i, word.size()) == word and dp[i + word.size()])
-    //                 dp[i] = true;
-    //             if(dp[i]) break;
-    //         }
-    //     }
+    //Tabulation
+    bool wordBreak(string s, vector<string>& words) {
+        int n = s.size();
+        vector<bool> dp(n + 1, 0);
+        dp[n] = true;
 
-    //   return dp[0];
-    //}
+        for(int i = n - 1; i >= 0; i--) {
+            for(auto word: words) {
+                if(i + word.size() <= n and s.substr(i, word.size()) == word and dp[i + word.size()])
+                    dp[i] = true;
+                if(dp[i]) break;
+            }
+        }
+
+      return dp[0];
+    }
 };
