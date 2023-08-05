@@ -19,5 +19,24 @@ class Solution {
         ans.push_back(-1);
 
     return ans;
+      // stack<int> s;
+      //   s.push(-1);
+      //   int n=nums1.size();
+      //   vector<int> ans(n);
+      //   int curr;
+      //   for(int i=0;i<n;i++){
+      //       for(int j=0;j<nums2.size();j++){
+      //           if(nums1[i]==nums2[j]){
+      //               int curr=nums1[i];
+      //               while(s.top()<=curr){
+      //                   s.pop();
+      //               }
+      //           }
+      //           ans[i]=s.top();
+      //           s.push(curr);
+      //       }
+
+      //   }
+      //   return ans;
   }
 };
