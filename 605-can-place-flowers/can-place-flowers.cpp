@@ -10,10 +10,10 @@ public:
                 if((i-1<0 || flowerbed[i-1]==0) &&
                  (i+1==flowerbed.size() || flowerbed[i+1]==0)){
                 flowerbed[i]=1;
-                ch++;
+                --n;
                 }
             }
         }
-        return ch>=n; 
+        return n<=0; 
     }
 };
