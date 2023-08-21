@@ -14,11 +14,6 @@ public:
                 }
             }
         }
-        cout<<ch<<endl;
-        if(ch>=n){
-            return true;
-        }
-        return false;
-        
+        return ch>=n; 
     }
 };
