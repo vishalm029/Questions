@@ -10,30 +10,43 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* dummyHead = new ListNode(0);
-        ListNode* current = dummyHead;
+    void insertAtTail(ListNode *&head, ListNode *&tail, int d){
+        ListNode *temp = new ListNode(d);
+        if(head==NULL){
+            head = temp;
+            tail = temp;
+        }
+        else{
+            tail->next = temp;
+            tail = temp;
+        }
+        return;
+    }
+
+    ListNode *add(ListNode *a, ListNode *b){
         int carry = 0;
+        ListNode *ansHead = NULL;
+        ListNode *ansTail = NULL;
 
-        while (l1 || l2) {
-            int x = l1 ? l1->val : 0;
-            int y = l2 ? l2->val : 0;
+        while(a!=NULL || b!=NULL || carry!=0){
+            int val1 = 0;
+            if(a!=NULL) val1 = a->val;
+            int val2 = 0;
+            if(b!=NULL) val2 = b->val;
 
-            int total = x + y + carry;
-            carry = total / 10;
-            current->next = new ListNode(total % 10);
+            int sum = carry + val1 + val2;
+            int digit = sum%10;
+            insertAtTail(ansHead, ansTail, digit);
+            carry = sum/10;
 
-            current = current->next;
-            if (l1) l1 = l1->next;
-            if (l2) l2 = l2->next;
+            if(a!=NULL) a = a->next;
+            if(b!=NULL) b = b->next;
         }
+        return ansHead;
+    }
 
-        if (carry) {
-            current->next = new ListNode(carry);
-        }
-
-        ListNode* result = dummyHead->next;
-        delete dummyHead;
-        return result;
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *ans = add(l1,l2);
+        return ans;
     }
 };
