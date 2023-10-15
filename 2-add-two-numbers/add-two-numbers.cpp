@@ -10,43 +10,43 @@
  */
 class Solution {
 public:
-    void insertAtTail(ListNode *&head, ListNode *&tail, int d){
-        ListNode *temp = new ListNode(d);
-        if(head==NULL){
-            head = temp;
-            tail = temp;
-        }
-        else{
-            tail->next = temp;
-            tail = temp;
-        }
-        return;
-    }
-
-    ListNode *add(ListNode *a, ListNode *b){
-        int carry = 0;
-        ListNode *ansHead = NULL;
-        ListNode *ansTail = NULL;
-
-        while(a!=NULL || b!=NULL || carry!=0){
-            int val1 = 0;
-            if(a!=NULL) val1 = a->val;
-            int val2 = 0;
-            if(b!=NULL) val2 = b->val;
-
-            int sum = carry + val1 + val2;
-            int digit = sum%10;
-            insertAtTail(ansHead, ansTail, digit);
-            carry = sum/10;
-
-            if(a!=NULL) a = a->next;
-            if(b!=NULL) b = b->next;
-        }
-        return ansHead;
-    }
-
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *ans = add(l1,l2);
-        return ans;
+        ListNode*dummy = new ListNode();
+        //a node pointing to dummy 
+        ListNode*temp=dummy;
+        int carry=0;
+
+//at last when l1== NULL and l2==NULL and carry!=0 do one more iteration and add carry=1 as a node 
+        while(l1 != NULL || l2!= NULL || carry==1){
+            int sum=0;
+           
+           //sum from l1
+           if(l1!=NULL){
+               sum+=l1->val;
+               //move l1 to next node
+               l1=l1->next;
+           }
+
+           //sum from l2
+           if(l2!=NULL){
+               sum+=l2->val;
+               //move l2 to next node
+               l2=l2->next;
+           }
+
+          //add sum  alongwith carry 
+          sum+=carry;
+          carry=sum/10;
+
+          //add sum%10 as a new node 
+          ListNode* node= new ListNode(sum%10);
+          //make temp point to new node created
+          temp->next = node ; 
+          //move temp to next position
+          temp=temp->next;
+        }
+
+        //now our answer is node from duumy->next to last 
+        return dummy->next;
     }
 };
