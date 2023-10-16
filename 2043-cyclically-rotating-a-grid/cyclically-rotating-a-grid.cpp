@@ -1,50 +1,27 @@
-
 class Solution {
-    vector<int> dir = { 0,-1, 1,0, 0,1, -1,0 } ;
 public:
-    vector<vector<int>> rotateGrid(vector<vector<int>>& grid, int k) {
-        
-        int n = grid.size() ;
-        int m = grid[0].size() ;
-        
-        int rLL=0,rUL = n-1,cLL = 0, cUL = m-1 ;
-        
-        while(rLL<=rUL && cLL <= cUL ){
-            
-            int k2 = k%( (rUL-rLL-1)*2 + 2*(cUL-cLL+1) ) ;
-            
-            for(int i=0;i<k2;i++)
-                move(rLL,rUL,cLL,cUL,grid) ;
-            
-            rLL++;rUL--;
-            cLL++;cUL--;
-        }
-        
-        return grid;
+  vector<vector<int>> rotateGrid(vector<vector<int>>& grid, int k) {
+    int y = grid.size(), x = grid[0].size();
+    int yend = y - 1, xend = x - 1;
+    int limit = min(y>>1, x>>1), n = (yend<<1) + (xend<<1);
+    vector<int> rot(n+n);
+       
+    for(int i = 0; i != limit; i++, n -= 8, xend--, yend--){
+      int tk = k % n;
+      if(tk){
+        int k1 = 0, k2 = n;
+        for(int r =    i; r < yend;  r++) rot[k1++] = rot[k2++] = grid[r][i];
+        for(int c =    i; c < xend;  c++) rot[k1++] = rot[k2++] = grid[yend][c];
+        for(int r = yend; r >    i;  r--) rot[k1++] = rot[k2++] = grid[r][xend];
+        for(int c = xend; c >    i;  c--) rot[k1++] = rot[k2++] = grid[i][c];
+        tk = n - tk;
+        for(int r =    i; r < yend;  r++) grid[r][i]    = rot[tk++];
+        for(int c =    i; c < xend;  c++) grid[yend][c] = rot[tk++];
+        for(int r = yend; r >    i;  r--) grid[r][xend] = rot[tk++];
+        for(int c = xend; c >    i;  c--) grid[i][c]    = rot[tk++];
+      }
     }
     
-    void move(int rLL,int rUL,int cLL,int cUL,vector<vector<int>>& grid){
-       
-        int j2 = cUL;
-        int i2 = rLL ;
-        
-        int d = 0 ;
-        int prev=-1;
-        
-        do{
-            swap(grid[i2][j2], prev) ; 
-            
-            int i3 = i2+dir[d],j3 =j2+dir[d+1] ;
-            
-            if( j3 < cLL || i3 < rLL || j3 > cUL || i3 > rUL )
-                d+=2 ;
-                    
-            i2 = i2+dir[d] ;
-            j2 = j2+dir[d+1] ;
-            
-        }while( (i2 != rLL) || (j2 != cUL ) ) ;
-        
-        grid[i2][j2] = prev ;
-        
-    }
+    return grid;
+  }
 };
